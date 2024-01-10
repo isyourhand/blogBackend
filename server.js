@@ -10,7 +10,9 @@ mongoose.connect(db).then(() => {
   console.log("MongoDb Connection Successful.");
 });
 
+const hostName =
+  process.env.NODE_ENV === "development" ? "127.0.0.1" : "0.0.0.0";
 const port = 4000;
-const server = app.listen(port, () => {
+const server = app.listen(port, "0.0.0.0", () => {
   console.log(`App running on port ${port}...`);
 });
