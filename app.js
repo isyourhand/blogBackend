@@ -30,6 +30,7 @@ app.use(
       const allowedOrigins = [
         "http://localhost:3000",
         "http://localhost:59157",
+        "http://8.134.236.92:3000",
       ];
       console.log(requestOrigin);
       if (allowedOrigins.includes(requestOrigin)) {
