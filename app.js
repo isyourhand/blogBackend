@@ -26,6 +26,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: function (requestOrigin, callback) {
+      console.log("url", requestOrigin);
       const allowedOrigins = [
         "http://localhost:3000",
         "http://localhost:59157",
