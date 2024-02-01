@@ -10,6 +10,15 @@ exports.deleteOne = (Model, ModelEn, type) =>
     let doc;
     let parentDir;
 
+    doc = await useModel.findById(req.params.id);
+
+    if (doc.subfolder.length > 0 || doc.subfile.length > 0)
+      return next(
+        new AppError(
+          "Unable to delete a folder that has subfiles or subfolders."
+        )
+      );
+
     doc = await useModel.findByIdAndDelete(req.params.id);
 
     if (!doc) {
@@ -85,7 +94,9 @@ exports.getOne = (Model, ModelEn, popOptions, popOptions2) =>
 
     const doc = await query;
 
-    console.log("doc", doc);
+    // console.log(new Date(Date.now()).toLocaleString(), Date.now());
+
+    // console.log("doc", doc);
 
     if (!doc) {
       return next(new AppError("No document found with that id", 404));

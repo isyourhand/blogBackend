@@ -26,13 +26,15 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: function (requestOrigin, callback) {
-      console.log("url", requestOrigin);
+      console.log("OriginUrl -> ", requestOrigin);
       const allowedOrigins = [
+        "http://localhost:3001",
         "http://localhost:3000",
         "http://localhost:59157",
         "http://8.134.236.92:3000",
+        "",
       ];
-      console.log(requestOrigin);
+
       if (allowedOrigins.includes(requestOrigin)) {
         callback(null, true);
       } else {

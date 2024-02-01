@@ -5,6 +5,10 @@ const dirEnSchema = new mongoose.Schema(
     name: {
       type: String,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
     parentId: { type: mongoose.Schema.ObjectId },
     subfolder: [{ type: mongoose.Schema.ObjectId, ref: "DirEn" }],
     subfile: [{ type: mongoose.Schema.ObjectId, ref: "PostEn" }],
@@ -19,7 +23,7 @@ dirEnSchema.pre(/^find/, function (next) {
       select: "title keyName",
     }).populate({
       path: "subfolder",
-      select: "name",
+      select: "name createdAt",
     });
   }
 

@@ -75,6 +75,11 @@ exports.logout = (req, res) => {
   res.cookie("jwt", "loggedout", {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
+    sameSite: "none",
+    secure:
+      process.env.NODE_ENV === "development"
+        ? true
+        : req.secure || req.headers["x-forwarded-proto"] === "https",
   });
 
   res.status(200).json({
@@ -160,3 +165,29 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+exports.whoami = catchAsync(async (req, res, next) => {
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
+
+  if (!token) {
+    return next(new AppError("You dont have permission..."), 401);
+  }
+
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  const user = await User.findById(decoded.id);
+
+  console.log(user);
+
+  res.status(200).json({
+    role: user.role,
+  });
+});

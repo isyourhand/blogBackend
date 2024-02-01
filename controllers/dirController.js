@@ -31,6 +31,7 @@ exports.createAndUpdateParentFolder = catchAsync(async (req, res, next) => {
     );
 
   req.body.parentId = req.params.id;
+  req.body.createdAt = Date.now();
 
   const newDir = await Model.create(req.body);
 
@@ -44,7 +45,7 @@ exports.createAndUpdateParentFolder = catchAsync(async (req, res, next) => {
 
   // parentDir.save();
 
-  console.log(parentDir);
+  // console.log(parentDir);
   res.status(201).json({
     status: "success",
     data: {

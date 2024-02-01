@@ -16,47 +16,47 @@ exports.createPostAndAddToFolder = catchAsync(async (req, res, next) => {
   const Model = lan === "cn" ? Post : PostEn;
   const DirModel = lan === "cn" ? Dir : DirEn;
 
-  const $ = cheerio.load(req.body.content);
+  // const $ = cheerio.load(req.body.content);
 
-  const promises = [];
+  // const promises = [];
 
-  // upload imgs to server and update imgElement src.
-  $("img").each(async (i, el) => {
-    const imgEl = $(el);
+  // // upload imgs to server and update imgElement src.
+  // $("img").each(async (i, el) => {
+  //   const imgEl = $(el);
 
-    const size = imgEl.prop("style");
+  //   const size = imgEl.prop("style");
 
-    const imageBuffer = Buffer.from(imgEl.attr("src").split(",")[1], "base64");
+  //   const imageBuffer = Buffer.from(imgEl.attr("src").split(",")[1], "base64");
 
-    const [width, height] = [
-      parseInt(size.width, 10),
-      parseInt(size.height, 10),
-    ];
+  //   const [width, height] = [
+  //     parseInt(size.width, 10),
+  //     parseInt(size.height, 10),
+  //   ];
 
-    const fileName = `${req.body.title}-${Date.now()}-${i}-${lan}.jpeg`;
+  //   const fileName = `${req.body.title}-${Date.now()}-${i}-${lan}.jpeg`;
 
-    imgEl.attr(
-      "src",
-      `${req.protocol}://${req.get("host")}/${lan}/api/post/img/${fileName}`
-    );
+  //   imgEl.attr(
+  //     "src",
+  //     `${req.protocol}://${req.get("host")}/${lan}/api/post/img/${fileName}`
+  //   );
 
-    const promise = sharp(imageBuffer);
+  //   const promise = sharp(imageBuffer);
 
-    if (width) promise.resize(width, height);
+  //   if (width) promise.resize(width, height);
 
-    promise
-      .toFormat("jpeg")
-      .jpeg({ quality: 90 })
-      .toFile(`public/img/post/${fileName}`);
+  //   promise
+  //     .toFormat("jpeg")
+  //     .jpeg({ quality: 90 })
+  //     .toFile(`public/img/post/${fileName}`);
 
-    promises.push(promise);
-  });
+  //   promises.push(promise);
+  // });
 
-  await Promise.all(promises);
+  // await Promise.all(promises);
 
-  // console.log($.html());
+  // // console.log($.html());
 
-  req.body.content = $.html();
+  // req.body.content = $.html();
 
   const newPost = await Model.create(req.body);
 
