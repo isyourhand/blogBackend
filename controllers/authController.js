@@ -23,10 +23,12 @@ const createSendToken = (user, statusCode, req, res) => {
 
     httpOnly: true,
     sameSite: "none",
-    secure:
-      process.env.NODE_ENV === "development"
-        ? true
-        : req.secure || req.headers["x-forwarded-proto"] === "https",
+    secure: true,
+    // secure:
+    //   process.env.NODE_ENV === "development"
+    //     ? true
+    //     : req.secure || req.headers["x-forwarded-proto"] === "https",
+    // 这个要求客户端是https
   });
 
   user.password = undefined;
