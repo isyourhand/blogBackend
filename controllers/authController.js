@@ -78,10 +78,12 @@ exports.logout = (req, res) => {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
     sameSite: "none",
-    secure:
-      process.env.NODE_ENV === "development"
-        ? true
-        : req.secure || req.headers["x-forwarded-proto"] === "https",
+    secure: true,
+    // secure:
+    //   process.env.NODE_ENV === "development"
+    //     ? true
+    //     : req.secure || req.headers["x-forwarded-proto"] === "https",
+    // 这个要求客户端是https
   });
 
   res.status(200).json({
