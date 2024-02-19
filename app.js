@@ -32,7 +32,7 @@ app.use(
         "http://localhost:3000",
         "http://localhost:59157",
         "http://8.134.236.92:3000",
-        "",
+        "http://llog.top:3000/",
       ];
 
       if (allowedOrigins.includes(requestOrigin)) {
@@ -46,6 +46,11 @@ app.use(
 );
 
 app.options("*", cors());
+
+app.use(express.static(path.join(__dirname, "build")));
+// app.get("/", function (req, res) {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
 app.use("/:lan/api/post", postRouter);
 app.use("/:lan/api/dir", dirRouter);
