@@ -32,7 +32,7 @@ app.use(
         "http://localhost:3000",
         "http://localhost:59157",
         "http://8.134.236.92:3000",
-        "http://llog.top:3000/",
+        "http://llog.top:3000",
       ];
 
       if (allowedOrigins.includes(requestOrigin)) {
