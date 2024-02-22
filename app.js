@@ -33,6 +33,7 @@ app.use(
         "http://localhost:59157",
         "http://8.134.236.92:3000",
         "http://llog.top",
+        "https://llog.top",
       ];
 
       if (allowedOrigins.includes(requestOrigin)) {
