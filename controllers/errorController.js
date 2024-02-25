@@ -23,7 +23,7 @@ module.exports = (err, req, res, next) => {
 
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, req, res);
-  } else if (process.env.NODE_ENV === "produciton") {
+  } else if (process.env.NODE_ENV === "production") {
     sendErrorDev(err, req, res);
   }
 };
