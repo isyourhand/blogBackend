@@ -58,6 +58,8 @@ exports.createPostAndAddToFolder = catchAsync(async (req, res, next) => {
 
   // req.body.content = $.html();
 
+  req.body.createdAt = Date.now();
+
   const newPost = await Model.create(req.body);
 
   console.log("The post has been created...");
