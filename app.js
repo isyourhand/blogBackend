@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const rateLimit = require("express-rate-limit");
 
 const postRouter = require("./routes/postRouters.js");
 const dirRouter = require("./routes/dirRouters.js");
@@ -26,12 +27,16 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: function (requestOrigin, callback) {
-      console.log("OriginUrl -> ", requestOrigin);
+      console.log(
+        "OriginUrl -> ",
+        requestOrigin,
+        new Date(Date.now()).toLocaleString()
+      );
       const allowedOrigins = [
         "http://localhost:3001",
         "http://localhost:3000",
         "http://localhost:59157",
-        "http://8.134.236.92:3000",
+
         "http://llog.top",
         "https://llog.top",
       ];
@@ -47,6 +52,14 @@ app.use(
 );
 
 app.options("*", cors());
+
+// Limit requests from same API
+const limiter = rateLimit({
+  max: 10,
+  windowMs: 60 * 1000, //timeWindow
+  message: "Too many requests from this IP, please try again in an hour",
+});
+app.use(limiter);
 
 app.use(express.static(path.join(__dirname, "build")));
 // app.get("/", function (req, res) {
