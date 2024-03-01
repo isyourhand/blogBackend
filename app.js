@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json({ limit: "10mb" })); // 设置请求体限制为10MB
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-app.enable("trust proxy");
+app.enable("trust proxy", 1);
 
 app.use(express.json());
 
@@ -36,7 +36,7 @@ app.use(
         "http://localhost:3001",
         "http://localhost:3000",
         "http://localhost:59157",
-
+        undefined,
         "http://llog.top",
         "https://llog.top",
       ];
@@ -55,16 +55,20 @@ app.options("*", cors());
 
 // Limit requests from same API
 const limiter = rateLimit({
-  max: 10,
+  max: 60,
   windowMs: 60 * 1000, //timeWindow
   message: "Too many requests from this IP, please try again in an hour",
 });
 app.use(limiter);
 
 app.use(express.static(path.join(__dirname, "build")));
-// app.get("/", function (req, res) {
+// app.get("*", function (req, res) {
 //   res.sendFile(path.join(__dirname, "build", "index.html"));
 // });
+app.get("/ip", (request, response) => response.send(request.ip));
+app.get("/x-forwarded-for", (request, response) =>
+  response.send(request.headers)
+);
 
 app.use("/:lan/api/post", postRouter);
 app.use("/:lan/api/dir", dirRouter);
