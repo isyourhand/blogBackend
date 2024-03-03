@@ -104,15 +104,22 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
 
   let filter = {};
 
-  const results = await Model.find({}).countDocuments();
-
   const features = new APIFeatures(Model.find(filter), req.query)
     .filter()
     .limitFields()
     .paginate()
     .sort();
 
+  const countNum = new APIFeatures(Model.find(filter), req.query)
+    .filter()
+    .limitFields()
+    .sort();
+
+  // const results = await features.query.countDocuments();
+  // console.log(results);
+
   const posts = await features.query;
+  const results = await countNum.query.countDocuments();
 
   console.log("The posts have been queried...");
 
