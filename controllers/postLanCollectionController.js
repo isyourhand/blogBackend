@@ -12,7 +12,9 @@ exports.getPostLanCollectionByName = catchAsync(async (req, res, next) => {
     uniqueName: req.params.uniqueName,
   }).populate(req.params.lan);
 
-  console.log(doc);
+  console.log("Fetching file from the database...");
+
+  // console.log(doc);
 
   res.status(200).json({
     status: "success",

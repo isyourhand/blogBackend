@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(ExpressMongoSanitize());
 
 // Data sanitization against XSS
-app.use(xss());
+// app.use(xss());
 
 // Prevent parameter pollution
 app.use(
